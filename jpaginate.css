@@ -1,0 +1,151 @@
+/*
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+:focus { outline: 0 }
+ol, ul { list-style: none }
+table { border-collapse: separate; border-spacing: 0 }
+caption, th, td { text-align: left; font-weight: normal }
+a { text-decoration:none }
+b, strong { font-weight:bold }
+i, em { font-style:italic }
+td { vertical-align:top }
+
+body { font-size:12px }
+
+input, fieldset, legend, textarea, select {
+	-webkit-border-radius:3px; -moz-border-radius: 3px;
+}
+input[type="text"], textarea { padding:3px }
+select { padding:2px }
+input[type="radio"], input[type="checkbox"] {
+	background:none !important;
+	border:none !important;
+	vertical-align:middle;
+}
+input[type="submit"], input[type="button"] { font-size:12px }
+input, select, textarea, input.submit {
+	border:none !important;
+	border:1px solid #B3B3B3 !important;
+}
+input[type="submit"]:hover, input[type="button"]:hover {
+	background-color:#d3d3d3;	
+}
+*/
+/**** end of possible conflicts ******/
+
+
+/* styles for jpaginate tabular data */
+.jp_data { 
+	color:#000;
+	font-size:12px;
+	width:100%;
+	margin-bottom:3px;
+	border: 1px solid #B3B3B3;
+}
+.jp_data td, .jp_data th { padding:3px 4px 2px; vertical-align:middle }
+.jp_data td { border:1px solid #ddd }
+.jp_data th {
+	font-size:11px;
+	padding:4px 4px 3px;
+	color:#000;
+	border-bottom:1px solid #B3B3B3;
+	background:#D3D3D3;
+	font-weight:bold;
+}
+.jp_data_filters {
+	border-bottom:2px dotted #bbb;
+	position:relative;
+	padding-bottom:2px;
+	margin-bottom:2px;
+	line-height:25px;
+}
+.jp_results_pages {
+	position:relative;
+	height:25px;
+}
+.jp_data_filters input, .jp_data_filters select { margin-right:2px }
+.jp_checkbox_plugin{ background-color:#eee !important; width:21px; }
+.jp_showing { position:absolute; top:1px; left:0 }
+.jp_data_buttons { float:left; height:22px; line-height:22px }
+.jp_pageNumbering, .jp_pagination_bottom { position:absolute; height:22px; line-height:22px; right:0; }
+.jp_pageNumbering { margin:3px 0 2px }	
+.jp_pagination a, .jp_pagination_selected {
+	border:1px solid #0082D6;
+	font-size:11px;
+	margin:0 1px;
+	padding:3px 5px 1px;
+	text-decoration:none;
+	background:#fff;
+	color:#0082D6;
+}
+.jp_pagination a:hover, .jp_pagination_selected { background:#0082D6; color:#fff; cursor:pointer; }
+.jp_loadingStatus {
+	position:absolute;
+	top:130px; left:50%;
+	margin-left:-100px;
+	background:#333;
+	border:1px solid #333;
+	-webkit-border-radius:5px; -moz-border-radius: 5px;
+	height:60px; width:200px;
+	font-size:20px;
+	line-height:60px;
+	color:#fff;
+	opacity:0.9;
+	text-align:center;
+	-moz-box-shadow:7px 9px 10px #aaa; -webkit-box-shadow:7px 9px 10px #aaa;
+}
+.jp_loadingStatus img { margin-bottom:-8px }
+.jp_pagination li a, .jp_pagination li a:visited, .jp_pagination li a:active {
+	border: 1px solid #B3B3B3; color: #333;
+}
+.jp_pagination li a:hover {
+	border: 1px solid #B3B3B3; color: #fff; background-color: #B3B3B3;
+}
+/*Style for currently selected page link*/
+.jp_pagination li a.jp_currentpage { 
+	background-color: #B3B3B3; color: #FFF !important; border: 1px solid #B3B3B3;
+}
+.jp_controls {
+	border:1px solid #B3B3B3; background:none; color:#333 !important;
+}
+
+.jp_editHover {
+	background-image:url(images/icons/page_edit.png) !important;
+	background-repeat:no-repeat !important;
+	background-position:right 3px !important;
+}
+
+
+
+/***********************************
+************ PROGRESS BAR **********
+************************************/
+
+
+td.jp_bgcolor_green {
+	background-color:#55DD55 !important;
+	width: 200px;
+}
+.jp_evenRow td { background:#F2F2F2 }
+.jp_oddRow td { background:#D2D2D2 }
+.jp_highlight td { background:#D2D2D2 }
+.jp_selected td { background:#ffdc4b; color:#000 }
+.jp_hoverMiddle {
+	border-top:1px solid #333 !important;
+	border-bottom: 1px solid #333 !important;
+}
