@@ -11,7 +11,9 @@ echo "aaa";
 echo "a";
 echo "b";
 $x = 1;
-$x = 2;
+
+
+
 $x = 3;
 
 ?>
