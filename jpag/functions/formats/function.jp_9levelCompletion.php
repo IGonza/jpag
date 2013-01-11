@@ -1,7 +1,8 @@
 <?php
 
 function jp_9levelCompletion($val){
-global $CDB;
+
+    global $CDB;
 
 
 	//$separateD = explode("|", $val);

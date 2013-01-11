@@ -8,6 +8,17 @@
 		<number>50</number>
 		<number>100</number>
 	</maxResults>
+        <pagination>
+		<pageTotal>20</pageTotal>
+		<showFirstLink>1</showFirstLink>
+		<showLastLink>1</showLastLink>
+		<showPrevLink>1</showPrevLink>
+		<showNextLink>1</showNextLink>
+		<centerGroup>2</centerGroup>
+		<leftGroup>3</leftGroup>
+		<rightGroup>3</rightGroup>
+		<linkFormat>pageNumber</linkFormat>
+	</pagination>
 
 	<filters visible="1">
 		<multifilter>
@@ -58,7 +69,6 @@
 	</filters>
 
 	
-	<!--<mainSQL>SELECT c.customerid,c.firstname,c.lastname,c.email,c.customerflagged, DATE_FORMAT(c.datecreated,"%Y-%m-%d") as datecreated, CONCAT(cc.countrycode,cc.areacode,cc.prefix,cc.suffix) AS `phone`, ca.addresscity, ca.regionsid, ca.addresspostcode, ca.countriesid FROM (*CDB*).`4tbl_customers` c LEFT JOIN (*CDB*).`4tbl_customers_commo` cc ON c.defaultcommoid = cc.commoid LEFT JOIN (*CDB*).`4tbl_customers_addresses` ca ON c.billingaddressid = ca.addressid WHERE 1 </mainSQL>-->
 	<mainSQL>SELECT c.customerid, c.outsidecustomernumber, DATE_FORMAT(c.datecreated,"%Y-%m-%d") as datecreated, cc.countrycode, CONCAT(cc.areacode,cc.prefix,cc.suffix) AS `phonenumber`, c.firstname,c.lastname,c.email,c.customerflagged 
 				FROM (*CDB*).`4tbl_customers` c LEFT JOIN (*CDB*).`4tbl_customers_commo` cc ON c.defaultcommoid = cc.commoid WHERE 1 </mainSQL>
 	<tablerowID>customerid</tablerowID>
@@ -67,20 +77,20 @@
 		<column style="width:10px;">
 			<content plugin="rowNumbers"></content>
 		</column>
-        <column style="width:17px">
+                <column style="width:17px">
 			<content plugin="flagger">{*customerflagged*}</content>
 		</column>
-        <column style="width:17px">
+                <column style="width:17px">
 			<content applyFunction="jp_encrypt">556339/{*customerid*}||main16x16 icon2105</content>
 		</column>
 		<column style="width:17px;">
 			<content applyFunction="jp_encrypt">555806/{*customerid*}||main16x16 icon534</content>
 		</column>
-        <column title="Customer#" style="width:100px;" sort="outsidecustomernumber">
+                <column title="Customer#" style="width:100px;" sort="outsidecustomernumber">
 			<content>{*outsidecustomernumber*}</content>
 		</column>
 		
-        <column title="Name">
+                <column title="Name">
 			<content>{*firstname*} {*lastname*}</content>
 		</column>
 		<column title="CC Number">
@@ -117,18 +127,6 @@
 		</plugin>
 		
 	</plugins>
-	
-	<pagination>
-		<pageTotal>20</pageTotal>
-		<showFirstLink>1</showFirstLink>
-		<showLastLink>1</showLastLink>
-		<showPrevLink>1</showPrevLink>
-		<showNextLink>1</showNextLink>
-		<centerGroup>2</centerGroup>
-		<leftGroup>3</leftGroup>
-		<rightGroup>3</rightGroup>
-		<linkFormat>pageNumber</linkFormat>
-	</pagination>
 	
 	<text>
 		<no_results>no results are present.</no_results>
