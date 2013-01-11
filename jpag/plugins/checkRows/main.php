@@ -27,12 +27,16 @@ function checkRows_addjs_after_get_results()
 
 function checkRows_build_buttons()
 {
-	return '<input id="jp_checkall" type="button" value="Check All" /> <input id="jp_uncheckall" type="button" value="UnCheck All" />';
+	
+	
+		return '<input id="jp_checkall" type="button" value="Check All" /> <input id="jp_uncheckall" type="button" value="UnCheck All" />';
+		
+		
 }
 
 function checkRows_content($data, $plugin_conf)
 {
-
-	return '<input type="checkbox" class="jp_checkrows" />';
+	if($data==0){ $checked=''; }else{ $checked='checked'; }
+	return '<input type="checkbox" class="jp_checkrows" '.$checked.'/>';
 }
 ?>

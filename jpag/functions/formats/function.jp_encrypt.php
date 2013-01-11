@@ -5,6 +5,8 @@ function jp_encrypt($val){
 	$separated = explode("|",$val);
 	if(empty($separated[1])){ $text = ''; }else{ $text = $separated[1]; }
 	if(empty($separated[2])){ $icon = ''; }else{ $icon = '<div class="'.$separated[2].'" style="float:left;display:inline;margin-right:3px;"></div>'; }
+	$pageid = $separated[0];
+	if(empty($pageid)){ return '-------'; }
 	return '<a href="#'.encrypt($separated[0]).'" class="href">'.$icon.$text.'</a>';
 }
 

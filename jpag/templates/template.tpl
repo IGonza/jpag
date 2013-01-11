@@ -1,4 +1,4 @@
-<div class="jp_loadingStatus" id="status_indicator">Loading... <img src="{*JPAG_IMAGES*}/loading.gif" alt="loading..." border="0" /></div>
+<div class="jp_loadingStatus" id="status_indicator">Loading... <img src="{*JPAG_IMAGES*}loading.gif" alt="loading..." border="0" /></div>
 <div class="jp_data_filters">
 	{*filters*}
 </div>

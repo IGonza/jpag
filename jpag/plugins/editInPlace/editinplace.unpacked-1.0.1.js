@@ -18,8 +18,8 @@
 /*
  * Version 1.0.1
  *
- * bg_out (string) default: transparent hex code of background color on restore from hover
- * bg_over (string) default: #ffc hex code of background color on hover
+ * bg_mouseout (string) default: transparent hex code of background color on restore from hover
+ * bg_mouseover (string) default: #ffc hex code of background color on hover
  * callback (function) default: null function to be called when editing is complete; cancels ajax submission to the url param
  * cancel_button (string) default: <input type=”submit” class=”inplace_cancel” value=”Cancel”/> image button tag to use as “Cancel” button
  * default_text (string) default: “(Click here to add text)” text to show up if the element that has this functionality is empty
@@ -48,37 +48,40 @@ jQuery.fn.editInPlace = function(options) {
 
 	/* DEFINE THE DEFAULT SETTINGS, SWITCH THEM WITH THE OPTIONS USER PROVIDES */
 	var settings = {
-		iconerror:			"",
-		iconsuccess:		"",
+		iconerror:			"/images/icons/icon_exclamation.png",
+		iconsuccess:		"/images/icons/check.png",
 		url:				"",
 		params:				"",
 		field_type:			"text",
 		select_options:		"",
-		textarea_cols:		"25",
+		textarea_cols:		"35",
 		textarea_rows:		"10",
-		bg_over:			"#ffc",
-		bg_out:				"transparent",
-		saving_text:		"Saving...",
-		saving_image:		"",
+		textfield_width:	"155",
+		bg_color:			"#ffc",// can be transparent or a hex color
+		bg_mouseover:		"#d7fef9",// can be transparent or a hex color
+		bg_mouseout:		"#ffc",// can be transparent or a hex color
+		saving_text:		"",
+		saving_image:		"/images/loaders/ajax-loader-green.gif",
 		default_text:		"(Click here to add text)",
-		select_text:		"Choose new value",
+		select_text_on:		true,
+		select_text:		"select new value",
 		value_required:		null,
 		element_id:			"element_id",
 		update_value:		"update_value",
 		original_html:		"original_html",
 		save_button:		'<button class="inplace_save">Save</button>',
 		cancel_button:		'<button class="inplace_cancel">Cancel</button>',
-		show_buttons:		false,
-		on_blur:			"save",
+		show_buttons:		true, // false will just show a box. You will want on_blur:"null" if you choose false
+		show_buttons_below: true,
+		on_blur:			"null", // "null" will require you press "enter" to finish the edit, "save" will require the save button to be pushed
 		callback:			null,
 		success:			null,
-		error:				function(request){ alert("Failed to save value: " + request.responseText || 'Unspecified Error'); }
+		error:				function(request){ alert("Server timeout occurred. Failed to save value."); }
 	};
 
-	if(options) {
-		jQuery.extend(settings, options);
-	}
-
+	if(options){jQuery.extend(settings, options);}
+	if(settings.bg_color != ""){ jQuery(this).css("background", settings.bg_color); }
+	if(settings.show_buttons_below == false){ var button_pos = ' '; }else{ var button_pos = '<br />'; }
 	/* preload the icons if it exists */
 	if(settings.saving_image != ""){var loading_image = new Image();loading_image.src = settings.saving_image;	}
 	if(settings.iconsuccess != ""){var success_image = new Image();success_image.src = settings.iconsuccess;	}
@@ -86,7 +89,7 @@ jQuery.fn.editInPlace = function(options) {
 	/* THIS FUNCTION WILL TRIM WHITESPACE FROM BEFORE/AFTER A STRING */
 	String.prototype.trim = function(){return this.replace(/^\s+/, '') .replace(/\s+$/, '');};
 	/* THIS FUNCTION WILL ESCAPE ANY HTML ENTITIES SO "Quoted Values" work */
-	String.prototype.escape_html = function(){return this.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
+	String.prototype.escape_html = function(){ return this.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
 
 	/* CREATE THE INPLACE EDITOR */
 	return this.each(function(){
@@ -97,27 +100,29 @@ jQuery.fn.editInPlace = function(options) {
 		var click_count = 0;
 
 		jQuery(this)
-		.mouseover(function(){jQuery(this).css("background", settings.bg_over);})
-		.mouseout(function(){jQuery(this).css("background", settings.bg_out);})
+		.mouseover(function(){jQuery(this).css("background", settings.bg_mouseover);})
+		.mouseout(function(){jQuery(this).css("background", settings.bg_mouseout);})
 
 		.click(function(){
 			click_count++;
+			//alert(click_count);
+			
 			if(!editing)
 			{
 				editing = true;
 				//save original text - for cancellation functionality
 				var original_html = jQuery(this).html(); //alert(original_html);
-				var buttons_code  = (settings.show_buttons) ? settings.save_button + ' ' + settings.cancel_button : '';
+				var buttons_code  = (settings.show_buttons) ? button_pos + settings.save_button + ' ' + settings.cancel_button : '';
 
 				//if html is our default text, clear it out to prevent saving accidentally
 				if (original_html == settings.default_text) jQuery(this).html('');
 
-				if (settings.field_type == "textarea"){	var use_field_type = '<textarea name="inplace_value" class="inplace_field" rows="' + settings.textarea_rows + '" cols="' + settings.textarea_cols + '">' + jQuery(this).text().trim().escape_html() + '</textarea>';}
-				else if(settings.field_type == "text"){var use_field_type = '<input type="text" name="inplace_value" class="inplace_field" value="' +jQuery(this).text().trim().escape_html() + '" />';}
+				if (settings.field_type == "textarea"){	var use_field_type = '<textarea name="inplace_value" class="inplace_field" rows="'+settings.textarea_rows+'" cols="'+settings.textarea_cols+'">'+jQuery(this).text().trim().escape_html()+'</textarea>';}
+				else if(settings.field_type == "text"){var use_field_type = '<input type="text" name="inplace_value" class="inplace_field" style="width:'+settings.textfield_width+'px;" value="'+jQuery(this).text().trim().escape_html()+'" />';}
 				else if(settings.field_type == "select")
 				{
 					var optionsArray = settings.select_options.trim().split('|'); //alert(optionsArray[0]); // reports:2
-					var use_field_type = '<select name="inplace_value" class="inplace_field"><option value="">' + settings.select_text + '</option>';
+					if(settings.select_text_on == true){ var use_field_type = '<select name="inplace_value" class="inplace_field"><option value="">'+settings.select_text+'</option>'; }else{ var use_field_type = '<select name="inplace_value" class="inplace_field">';}
 						for(var i=0; i<optionsArray.length; i++){
 							var optionsValuesArray = optionsArray[i].split(':');
 							var selected = optionsValuesArray[0] == original_html ? 'selected="selected" ' : '';
@@ -130,7 +135,7 @@ jQuery.fn.editInPlace = function(options) {
 
 
 				/* insert the new in place form after the element they click, then empty out the original element */
-				jQuery(this).html('<form class="inplace_form" style="display: inline; margin: 0; padding: 0;">' + use_field_type + ' ' + buttons_code + '</form>');
+				jQuery(this).html('<form class="inplace_form" style="display: inline; margin: 0; padding: 0;">' + use_field_type + '' + buttons_code + '</form>');
 
 			}/* END- if(!editing) -END */
 
@@ -140,15 +145,16 @@ jQuery.fn.editInPlace = function(options) {
 				{
 					editing = false;
 					click_count = 0;
-					original_element.css("background", settings.bg_out);/* put the original background color in */
+					original_element.css("background", settings.bg_mouseout);/* put the original background color in */
 					original_element.html(original_html);/* put back the original text */
 					return false;
 				}
 
 				function saveAction()
 				{
+					//alert("saving..");
 					/* put the original background color in */
-					original_element.css("background", settings.bg_out);
+					original_element.css("background", settings.bg_mouseout);
                     var this_elem = jQuery(this);
 					if(settings.field_type == "select"){ 
 						var selectStuff = (this_elem.is('form')) ? this_elem.children(0).val() : this_elem.parent().children(0).val();
@@ -184,33 +190,35 @@ jQuery.fn.editInPlace = function(options) {
 						click_count = 0;
 						original_element.html(original_html);
 						alert("Error: You must enter a value to save this field");
+					} else if (escape(original_html) == escape(new_data)) { // if the data is exactly the same, don't bother sending to the server.
+						editing = false;
+						click_count = 0;
+						original_element.html(original_html);
+					   //alert("same as before, not updated");
 					} else {
 						jQuery.ajax({
-							url:settings.url,
-							data:settings.update_value + '=' + encodeURIComponent(new_data) + '&' + settings.element_id + '=' + original_element.attr("id") + settings.params + '&' + settings.original_html + '=' + encodeURIComponent(original_html),
-							dataType:"html",
-							complete:function(request){ editing = false; click_count = 0;},
-							success:function(html){
+							//url: settings.url,
+							//type: "POST",
+							data: settings.update_value + '=' + encodeURIComponent(new_data) + '&' + settings.element_id + '=' + original_element.attr("id") + settings.params + '&' + settings.original_html + '=' + encodeURIComponent(original_html),
+							dataType: "html",
+							complete: function(request){ editing = false; click_count = 0;},
+							//cache: false,
+							success: function(html){
+								//alert("updated success..");
 								/* if the text returned by the server is empty,put a marker as text in the original element */
 								var new_text = html || settings.default_text;
 								var serverResponseArray = new_text.split('|');
 								var responseID = serverResponseArray[0]; // 0 = error, 1 = success (necessary to show which icon)
-								var responseMsg = serverResponseArray[1]; // simple message from server [Update was a Success],[Incorrect email, update declined]
-								var responseExtraCommands = serverResponseArray[2]; // display a popup message, if needed
+								var responseExtraCommands = serverResponseArray[1]; // display a popup message, if needed
 								
-								/* put the newly updated info into the original element */
-								if(settings.iconsuccess != ""){var icongood = '<img src="'+settings.iconsuccess+'" style="margin-bottom:-4px" />';	}else{var icongood = "";	}
-								if(settings.iconerror != ""){var iconbad = '<img src="'+settings.iconerror+'" style="margin-bottom:-4px" />';	}else{var iconbad = "";	}
-								
-								if(responseID==0){ var icon = iconbad; original_element.next().addClass('error');  original_element.attr('style','padding:2px 2px 2px;border:1px solid #F00'); }
-								else if(responseID==1){  var icon = icongood; original_element.next().addClass('success'); original_element.attr('style',''); }
-								else {  original_element.attr('style','padding:2px 2px 2px;border:1px solid #F00'); alert("Edit in place error!\n\nMissing or unrecognized responseID from serverResponseArray.\nPlease fix!"); }
+								if(responseID==0){ original_element.attr('style','padding:2px 2px 2px;border:1px solid #F00'); }
+								else if(responseID==1){  original_element.attr('style',''); }
+								else { original_element.attr('style','padding:2px 2px 2px;border:1px solid #F00'); alert("Edit in place error!\n\nMissing or unrecognized responseID from serverResponseArray.\nPlease fix!\n\nreturned responseID: "+responseID); }
 								if(responseExtraCommands != ""){ eval(responseExtraCommands); } // perform extra js scripts if needed
-								original_element.html(unescape(new_html)); // put new_html inside the original element
-								original_element.next().html(icon+" "+responseMsg); // put responseMsg in next element
+								if(new_html != ''){original_element.html(unescape(new_html)); }else{original_element.html(unescape(settings.default_text));}  // put new_html inside the original element
 								if (settings.success) settings.success(html, original_element);
 							},
-							error: function(request) {	original_element.html(original_html); if (settings.error) settings.error(request, original_element);	}
+							error: function(request){original_element.html(original_html); if(settings.error) settings.error(request, original_element);}
 						});
 					}
 
@@ -232,7 +240,8 @@ jQuery.fn.editInPlace = function(options) {
     				else
     					original_element.children("form").children(".inplace_field").blur(cancelAction);
                 }
-
+				$(".correctme").remove();
+				
 				/* hit esc key */
 				$(document).keyup(function(event){ if (event.keyCode == 27) {cancelAction();}});
 

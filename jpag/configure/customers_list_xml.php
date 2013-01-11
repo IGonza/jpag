@@ -58,18 +58,19 @@
 
 	
 	<!--<mainSQL>SELECT c.customerid,c.firstname,c.lastname,c.email,c.customerflagged, DATE_FORMAT(c.datecreated,"%Y-%m-%d") as datecreated, CONCAT(cc.countrycode,cc.areacode,cc.prefix,cc.suffix) AS `phone`, ca.addresscity, ca.regionsid, ca.addresspostcode, ca.countriesid FROM (*CDB*).`4tbl_customers` c LEFT JOIN (*CDB*).`4tbl_customers_commo` cc ON c.defaultcommoid = cc.commoid LEFT JOIN (*CDB*).`4tbl_customers_addresses` ca ON c.billingaddressid = ca.addressid WHERE 1 </mainSQL>-->
-	<mainSQL>SELECT c.customerid, c.outsidecustomernumber, DATE_FORMAT(c.datecreated,"%Y-%m-%d") as datecreated, CONCAT(cc.countrycode,cc.areacode,cc.prefix,cc.suffix) AS `phonenumber`, c.firstname,c.lastname,c.email,c.customerflagged FROM (*CDB*).`4tbl_customers` c LEFT JOIN (*CDB*).`4tbl_customers_commo` cc ON c.defaultcommoid = cc.commoid WHERE 1 </mainSQL>
-	<tableID>customerid</tableID>
+	<mainSQL>SELECT c.customerid, c.outsidecustomernumber, DATE_FORMAT(c.datecreated,"%Y-%m-%d") as datecreated, cc.countrycode, CONCAT(cc.areacode,cc.prefix,cc.suffix) AS `phonenumber`, c.firstname,c.lastname,c.email,c.customerflagged 
+				FROM (*CDB*).`4tbl_customers` c LEFT JOIN (*CDB*).`4tbl_customers_commo` cc ON c.defaultcommoid = cc.commoid WHERE 1 </mainSQL>
+	<tablerowID>customerid</tablerowID>
 	<default_sort>4,asc</default_sort>
 	<columns>
 		<column style="width:10px;">
 			<content plugin="rowNumbers"></content>
 		</column>
         <column style="width:17px">
-			<content plugin="flagger" class="flagger">{*customerflagged*}</content>
+			<content plugin="flagger">{*customerflagged*}</content>
 		</column>
         <column style="width:17px">
-			<content applyFunction="jp_encrypt">555863/{*customerid*}||main16x16 icon2105</content>
+			<content applyFunction="jp_encrypt">556339/{*customerid*}||main16x16 icon2105</content>
 		</column>
 		<column style="width:17px;">
 			<content applyFunction="jp_encrypt">555806/{*customerid*}||main16x16 icon534</content>
@@ -95,9 +96,6 @@
 		</column>
 		<column title="Email" style="width:200px;" sort="email">
 			<content>{*email*}</content>
-		</column>
-		<column title="Number">
-			<content applyFunction="jp_formatPhone">{*phonenumber*}</content>
 		</column>
 		<column title="Added" sort="datecreated" style="width:90px;">
 			<content applyFunction="jp_formatDate">{*datecreated*}</content>

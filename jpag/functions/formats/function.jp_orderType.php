@@ -7,15 +7,12 @@ global $CDB;
 	if(!empty($separated[1])){ $ordertype = $separated[1]; }else{ return "-2-"; }
 	
 	if($ordertype==1){
-		$ordertypetext='Custom';
+		$ordertypetext='Custom Order';
 	}elseif($ordertype==2){
-		 $progsql = dbmain("SELECT p.programname FROM $CDB.`4tbl_orders_subscriptions` os, $CDB.`4tbl_programs` p WHERE os.programid = p.programid AND os.orderid = $orderid LIMIT 1");
+		 $progsql = dbmain("SELECT p.programname, pe.eventname FROM $CDB.`4tbl_orders_subscriptions` os, $CDB.`4tbl_programs` p, $CDB.`4tbl_programs_events` pe WHERE os.programid = p.programid AND os.eventid = pe.eventid AND os.orderid = $orderid LIMIT 1");
 		 $program = mysql_fetch_array($progsql);
-		 $ordertypetext="$program[programname]";
-	}elseif($ordertype==3){
-		$ordertypetext='Invoice';
+		 $ordertypetext="$program[programname] ($program[eventname])";
 	}
-		
 		
 	return $ordertypetext;	
 		

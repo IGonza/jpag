@@ -1,5 +1,7 @@
 <?php
 
+if(!empty($_SESSION['coreadmin'])){ define("JP_DEBUG", "1"); }
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -14,7 +16,8 @@ mysql_query("SET CHARACTER SET 'utf8'", $jp_dbmain_conn) or die(mysql_error());
 mysql_query("SET NAMES 'utf8'", $jp_dbmain_conn) or die(mysql_error()); 
 
 
-define('JPAG_JQUERY', 'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js'); 
+//define('JPAG_JQUERY', 'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js'); 
+define('JPAG_JQUERY', 'http://code.jquery.com/jquery-latest.min.js'); 
 
 // related paths
 define('JPAG_LOCATION', '/includes/modules/jpaginate/');
@@ -46,15 +49,13 @@ require_once(JPAG_FUNCTIONS.'general.php');
 require_once(JPAG_FUNCTIONS."core.php");
 
 
-
 $plugin_conf = array();
 
 $j_load = isset($_GET['load']) ? $_GET['load']:"";
-
+//trigger_error("load detected");
 switch ($j_load) {
 	case "data":
 		$jpaginate_config = loadConfig(CONFIG.JPAGINATE_CONFIG);
-
 		require_once(JPAG_FUNCTIONS."plugins.php");
 		echo jpaginate_loadData();
 		die();
@@ -72,7 +73,6 @@ switch ($j_load) {
 		break;
 	default:
 		$jpaginate_config = loadConfig(CONFIG.JPAGINATE_CONFIG);
-
 		require_once(JPAG_FUNCTIONS."plugins.php");
 		break;
 }

@@ -10,17 +10,21 @@ function lockrecord_addjs_functions($plugin_conf)
 			
 			var jp_lockrecord_d = data.split(":");
 
-			var jp_lockrecord_el = $("#" + jp_lockrecord_d[0]).children("td").find("div."+ jp_lockrecord_d[1]).find("img");
+			var jp_lockrecord_el = $("[id$=\'_"+ jp_lockrecord_d[0] +"\']").children("td").find("div."+ jp_lockrecord_d[1]).find("img");
 		
 			if (jp_lockrecord_el.attr("src") == "/images/icons/icon_lock_active.gif") {
 				jp_lockrecord_el.attr("src", "/images/icons/icon_lock_inactive.gif");
+				$("[id$=\'_"+ jp_lockrecord_d[0] +"\']").css("background-color","#FFF");
 			}
 			else {
 				jp_lockrecord_el.attr("src", "/images/icons/icon_lock_active.gif");
+				$("[id$=\'_"+ jp_lockrecord_d[0] +"\']").css("background-color","#F6CCDA");
 			}
 			
 			$("#status_indicator").attr("style", "visibility:hidden");
 		}
+		
+		
 		else 
 			alert("something went wrong!");
 	}
@@ -41,9 +45,20 @@ function lockrecord_addjs_after_get_results($plugin_conf)
 	$res .=
 	'
 	$(".lockrecord").each(function(){
+			
+			var imgstatus = $(this).closest("tr").children("td").find("img");
+			if (imgstatus.attr("src") == "/images/icons/icon_lock_active.gif") {
+			 $(this).closest("tr").css("background-color","#F6CCDA");
+			}
+			
 			$(this).click(function(){
-				id = $(this).parent().parent().attr("id");
+				
+				id = $(this).closest("tr").attr("id");
+				var parts = id.split("_");
+				id = parts[parts.length-1]; // get last of array
+				
 				//alert("flag clicked with row_id=" + id);
+
 				vars = "jp_id="+id+"&plugin=lockrecord&class='.$plugin_conf->sql[$i]['class'].'";
 				jp_sendRequest(vars, "jp_lockrecord_response");
 			

@@ -25,6 +25,7 @@ function jp_hook_addjs_after_get_results()
 	
 	for ($i=0; $i<$plugin_num; $i++)
 	{
+			//trigger_error("yes no");
 		if (function_exists($plugin_array[$i]."_addjs_after_get_results"))
 			echo call_user_func($plugin_array[$i]."_addjs_after_get_results", $plugin_conf[$plugin_array[$i]]);
 	}
@@ -133,10 +134,26 @@ function jpaginate_getPluginContent($data)
 
 function jpaginate_plugin_updateData($plugin_name)
 {
-	global $plugin_num, $plugin_array, $plugin_conf;	
+	global $plugin_num, $plugin_array, $plugin_conf;
+	$r = "";
 	
 	if (function_exists($plugin_name."_updateData"))
-		return call_user_func($plugin_name."_updateData", $plugin_conf[$plugin_name]);
+	{
+		$r = call_user_func($plugin_name."_updateData", $plugin_conf[$plugin_name]);
+		if ($r && !empty($plugin_conf[$plugin_name]->callback) )
+		{
+			$f = explode(";", strval($plugin_conf[$plugin_name]->callback));
+			foreach ($f as $fname)
+			{
+				if (function_exists($fname)){
+					call_user_func($fname);	
+				}
+			}
+		}
+	}
+	
+	return $r;
+	
 }
 
 

@@ -83,7 +83,7 @@
 											width:	this.cell_width
 											}:{
 											top:	this.$td.offset().top,
-											left:	e.offsetX-200
+											left:	e.offsetX
 											})
 										.removeClass(o.classHandler)
 										.addClass(	(o.dragProxy)? o.classDragArea :	o.classDragLine)
@@ -97,7 +97,8 @@
 									if(w - this.d2 - this.d1 >= 0){
 										e.dragProxy.style.width = w + "px"; //$(e.dragProxy).css({width: w}) ;
 										if (o.dragMove){
-											this.col.style.width = w +"px"; // cell width
+											if (typeof(this.col)!="undefined")
+												this.col.style.width = w +"px"; // cell width
 											if(!o.fixWidth){
 												oTable.style.width = (this.table_width - this.cell_width+ w) + "px";
 												};
@@ -113,8 +114,9 @@
 							//
 							.bind( 'dragend', function(e){ 
 								if (!o.dragMove){
-									var delta = parseInt(e.dragProxy.style.left) - this.left0;
-									this.col.style.width = (o.dragProxy) ? e.dragProxy.style.width : (this.cell_width + delta)+"px"; // cell width
+									var delta = parseInt(e.dragProxy.style.left) - this.left0 + 0;
+									if (typeof(this.col)!="undefined")
+										this.col.style.width = (o.dragProxy) ? e.dragProxy.style.width : (this.cell_width + delta)+"px"; // cell width
 									// change table width (if not fixed) 
 									if(!o.fixWidth)
 										oTable.style.width = ((o.dragProxy) ? this.table_width - this.cell_width + parseInt(e.dragProxy.style.width) : this.table_width + delta)+"px";
@@ -123,7 +125,8 @@
 								$(this).trigger('minimized');
 							})
 							.bind('minimized', function(e){
-								$(this.col)[(parseInt(this.col.style.width) <= o.minWidth) ? "addClass":"removeClass"](o.classMinimized)
+								if (typeof(this.col)!="undefined")
+									$(this.col)[(parseInt(this.col.style.width) <= o.minWidth) ? "addClass":"removeClass"](o.classMinimized)
 							});
 						});
 				o.renderTime = new Date().getTime() - o.renderTime;

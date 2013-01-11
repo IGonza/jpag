@@ -1,6 +1,6 @@
 .kiketable-colsizable{
 	table-layout: fixed; 
-	width : 100%;
+	width : 700px;
 	}
 .kiketable-colsizable td,
 .kiketable-colsizable th{
@@ -30,7 +30,7 @@ html > body .kiketable-colsizable-handler{
 	border-right:1px outset white;
 	}
 .kiketable-colsizable-dragLine{
-	position: absolute;
+	position: fixed;
 	width: 2px;
 	cursor: e-resize;
 	background-color: red;	/* value safe to change */

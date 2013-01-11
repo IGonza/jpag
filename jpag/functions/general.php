@@ -48,7 +48,7 @@ function loadConfig($conf)
 		
 		return $res;
 	}
-	else {die("configuration file is missed or not defined");}
+	else {die("jpaginate configuration file is missed or not defined");}
 }
 
 

@@ -7,7 +7,8 @@ function jp_trailtext ($val){
 
     if( strlen($separated[1]) >= $separated[0] ){ 
 	
-		return strip_tags(substr($separated[1],0,$separated[0])).'...<a href="javascript:void(0);" title="'.$separated[1].'"><img src="/images/icons/info.png" border="0"></a>';
+		//return strip_tags(substr($separated[1],0,$separated[0])).'...<a href="javascript:void(0);" title="'.$separated[1].'"><img src="/images/icons/info.png" border="0"></a>';
+		return strip_tags(substr($separated[1],0,$separated[0])).'...';
 	   
 	    }else{
 

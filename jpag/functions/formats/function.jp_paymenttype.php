@@ -1,28 +1,34 @@
 <?php
-
-// main16x16 icon1161 = cc
-
-/*
+//this function just shows if it's a cc/echeck/token with an icon, by passing in $ppid
+// $var = $ppid from system4
 function jp_paymenttype($var){
+global $CDB;
 	$separated = explode("|",$var);
-	if(empty($separated[0])){ return "missing param 1: countryid"; }
-	if(empty($separated[1])){ return "missing param 2: 1/2"; }
+	if(!empty($separated[0])){ $ppid = $separated[0]; }else{ return '<div class="main16x16 icon1514"></div>'; }
+	if(!empty($separated[0])){ $cdb = $separated[0]; }else{ return '<div class="main16x16 icon1514"></div>'; }
 	
 	// $type is Full State name, or just the Code
-	$getstate = dbmain("SELECT `countriesname`,`countriesisocode2`,`countriesflagicon` FROM `tbl_countries` WHERE `countriesid` = $separated[0]");
-	if(mysql_num_rows($getstate)){ // if a formid is waiting to be looked at
-	$s = mysql_fetch_assoc($getstate);
-		if(!empty($s['countriesflagicon'])){ $showicon = '<div class="'.$s['countriesflagicon'].'" style="float:left;display:inline;margin-right:5px;"></div>'; }else{ $showicon = ''; }
-		if($separated[1]==1){ 
-			$country = $showicon.ucfirst($s['countriesname']); }
-		elseif($separated[1]==2){ 
-			$country = $showicon.strtoupper($s['countriesisocode2']); 
+	$getppid = dbmain("SELECT `pptype` FROM $CDB.`4tbl_customers_pay` WHERE `ppid` = $ppid LIMIT 1");
+	if(!mysql_num_rows($getppid)){ return '<div class="main16x16 icon1514"></div>'; }
+	$pp = mysql_fetch_assoc($getppid);
+		
+   if($pp['pptype']==1){//credit cards
+		$sql = dbmain("SELECT `cctype` FROM $CDB.`4tbl_customers_pay_cc` WHERE `ppid` = $ppid LIMIT 1");
+		$r = mysql_fetch_array($sql);
+		
+		switch ($r['cctype']) {
+			case 1 : $icon = 'visa.gif'; break;
+			case 2 : $icon = 'mastercard.gif'; break;
+			case 3 : $icon = 'amex.gif'; break;
+			case 4 : $icon = 'discover.gif'; break;
+			default : return '<div class="main16x16 icon1161"></div>'; break;
 		}
-	}else{
-		$country = "";	
+		return '<img src="/images/icons/payment_types/'.$icon.'" width="22" />';
+	}elseif($pp['pptype']==2){//eCheck
+		return '<div class="main16x16 icon3108"></div>';
+	}elseif($pp['pptype']==3){// Token
+		return '<div class="main16x16 icon2336"></div>';
 	}
-	return $country;
 	
 }
-*/
 ?>
