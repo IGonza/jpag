@@ -1,6 +1,6 @@
 <jpaginate>
 	<loadJQUERY>false</loadJQUERY>
-	<!--<loadStartPage>No</loadStartPage>-->
+	<!--<loadStartPage>No</loadStartPage>--> 
 	<maxResults>
 		<number>10</number>
 		<number>20</number>
