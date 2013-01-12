@@ -11,5 +11,12 @@
 //test 1
 
 // test changes from Igor
+function test1($x) {
+    
+    return $x;
+    
+}
+
+
 
 ?>
