@@ -13,4 +13,11 @@
 
 // test changes from Igor
 
+// function by Marc
+function test2($y) {
+    
+    return $y;
+    
+}
+
 ?>
