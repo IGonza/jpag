@@ -8,7 +8,8 @@
 // 2. I save to my Local = Commit
 // 3. Push from local repositiry to remote
 // 
-//test 1
+//test 2
+// what if we push the changes in not the latest file 
 
 // test changes from Igor
 function test1($x) {
