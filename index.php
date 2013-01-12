@@ -12,6 +12,13 @@
 // what if we push the changes in not the latest file 
 
 // test changes from Igor
+function test1($x) {
+    
+    return $x;
+    
+}
+
+
 
 // function by Marc
 function test2($y) {
