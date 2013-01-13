@@ -4,7 +4,7 @@
  * This file is a demo page with jpag
  * 
  */
-require_once('../dbinfo.php');
+require_once('dbinfo.php');
 require_once('jpag/init.php');
 
 ini_set('display_errors', 1);
