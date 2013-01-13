@@ -3,14 +3,10 @@ function jpaginate_include_head()
 {
 	global $jpaginate_config;
 	
-	//echo "<link href=\"".JPAG_LOCATION."jpaginate.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
-	//echo "<link href=\"".JPAG_CSS."\" rel=\"stylesheet\" type=\"text/css\" />\n";
-
 	if ( (!isset($jpaginate_config->loadJQUERY) || $jpaginate_config->loadJQUERY == "true") && JPAG_JQUERY != "")
 			echo "<script type=\"text/javascript\" src=\"".JPAG_JQUERY."\"></script>\n";
-	//echo md5_file(CONFIG.JPAGINATE_CONFIG)."<br>";
-	//echo md5_file("/apache/html/jpaginate.com/pagination3/jpaginate/configure/configure.xml");
-	echo "<script type=\"text/javascript\" src=\"".SERVER_FILE."?load=js&f=".md5(JP_CONFIG_CONTENT)."&".$_SERVER['QUERY_STRING']."\"></script>\n";
+
+        echo "<script type=\"text/javascript\" src=\"".SERVER_FILE."?load=js&f=".md5(JP_CONFIG_CONTENT)."&".$_SERVER['QUERY_STRING']."\"></script>\n";
 	echo jp_hook_include_head();
 }
 
