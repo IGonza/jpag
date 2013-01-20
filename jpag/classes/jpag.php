@@ -13,33 +13,24 @@ class Jpag {
         
     private $_debug = false;
     private $_configFile;
-    private $_dataSource = 'mysql';
-    private $_dbServer = 'localhost';
-    private $_dbUsername;
-    private $_dbPassword;
-    private $_dbName;
-    private $_db;
+    private $_dataSource;
     private $_errorMsg;
+    
+    private $_sourceType;
+    private $_connectionData = array();
 
     public function _contruct() {
 
     }
 
-    public function load() {
+    public function load($sourceType,$connectionArray) {
+          
+        $this->_connectionData = $connectionArray;
+        $this->_sourceType = $sourceType;
         
-        $dsn = $this->_dataSource . ':dbname=' .
-               $this->_dbName . ';host=' .
-               $this->_dbServer;
+        $this->_dataSource = new dataSource($this->_sourceType);
         
-        try {
-            $this->_db = new PDO($dsn, $this->_dbUsername, $this->_dbPassword);
-        }
-	catch (PDOException $e) {
-	    $this->_errorMsg = $e->getMessage();
-            return false;
-        }
-        
-        return true;
+        return $this->_dataSource->setConnection($this->_connectionData);
         
     }
     
@@ -69,43 +60,45 @@ class Jpag {
     }
     
     public function get_dataSource() {
-        return $this->_dataSource;
+        return $this->_db->get_dataSource();
     }
 
     public function set_dataSource($_dataSource) {
-        $this->_dataSource = $_dataSource;
+        
+        $this->_db->set_dataSource($_dataSource);
+            
     }
     
     public function get_dbServer() {
-        return $this->_dbServer;
+        return $this->_db->get_dbServer();
     }
 
     public function set_dbServer($_dbServer) {
-        $this->_dbServer = $_dbServer;
+        $this->_db->set_dbServer($_dbServer);
     }
 
     public function get_dbUsername() {
-        return $this->_dbUsername;
+        return $this->_db->get_dbUsername();
     }
 
     public function set_dbUsername($_dbUsername) {
-        $this->_dbUsername = $_dbUsername;
+        $this->_db->set_dbUsername($_dbUsername);
     }
 
     public function get_dbPassword() {
-        return $this->_dbPassword;
+        return $this->_db->get_dbPassword();
     }
 
     public function set_dbPassword($_dbPassword) {
-        $this->_dbPassword = $_dbPassword;
+        $this->_db->set_dbPassword($_dbPassword);
     }
     
     public function get_dbName() {
-        return $this->_dbName;
+        return $this->_db->get_dbName();
     }
 
     public function set_dbName($_dbName) {
-        $this->_dbName = $_dbName;
+        $this->_db->set_dbName($_dbName);
     }
     
     public function get_errorMsg() {

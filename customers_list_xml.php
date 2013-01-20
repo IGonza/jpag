@@ -123,10 +123,21 @@
 		</plugin>
 		<plugin>
 			<name>flagger</name>
-			<sql class="flagger">UPDATE (*CDB*).`4tbl_customers` SET `customerflagged` = IF (`customerflagged` > 0, 0, 1) WHERE `customerid` = **row_id** LIMIT 1</sql>
+			<sql class="flagger">UPDATE (*CDB*).`4tbl_customers` SET `customerflagged` = IF (`customerflagged` > 0, 0, 1) 
+                                             WHERE `customerid` = **row_id** LIMIT 1</sql>
 		</plugin>
 		
 	</plugins>
+ {
+    "plugins" : {
+        "plugin" : [
+            {"name": "rowNumbers"},
+            {"name": "simpleStyleEffects", "effect" : "rollover"},
+            {"name": "flagger", "class" : "flagger", "sql" : "UPDATE (*CDB*).`4tbl_customers` SET `customerflagged` = IF (`customerflagged` > 0, 0, 1) 
+                                                              WHERE `customerid` = **row_id** LIMIT 1"}
+        ]
+    }
+ }       
 	
 	<text>
 		<no_results>no results are present.</no_results>

@@ -17,12 +17,16 @@ $jpag = new Jpag();
 $jpag->set_debug(TRUE);
 $jpag->set_configFile('customers_list_xml.php');
 
-$jpag->set_dbServer(DBHOST);
-$jpag->set_dbUsername(DBUSER);
-$jpag->set_dbPassword(DBPASSWORD);
-$jpag->set_dbName(DBNAME);
+$connectionData = array(
+    "dbms"       => "mysql",
+    "dbhost"     => DBHOST,
+    "dbuser"     => DBUSER,
+    "dbpassword" => DBPASSWORD,
+    "dbname"     => DBNAME
+);
 
-if (!$jpag->load())
+
+if (!$jpag->load("db", $connectionData))
     echo $jpag->get_errorMsg();
 
 ?>
