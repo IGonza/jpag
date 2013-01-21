@@ -17,7 +17,7 @@ class dbDriver {
         
     }
     
-    public function connect($dataInfo) {
+    public function connect($dbInfo) {
         
         if (isset($dataInfo['dbms'])) $this->_dataSource = $dataInfo['dbms'];
         
@@ -28,7 +28,7 @@ class dbDriver {
                 break;
             case 'mysql':
             default:
-                $this->_db = new mysqlDriver($dataInfo);
+                $this->_db = new mysqlDriver($dbInfo);
                 return $this->_db->connect();
   
         }
