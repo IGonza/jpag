@@ -1,7 +1,7 @@
 <?php
 
 
-class db_mysqlDriver  {
+class mysqlDriver  {
     
     
     public function _contruct() {
@@ -10,8 +10,12 @@ class db_mysqlDriver  {
         
     }
     
+    public function connect() {
+        
+        return 1;
+        
+    }
+    
     
     
 }
-
-?>

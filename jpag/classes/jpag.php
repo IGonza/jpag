@@ -12,11 +12,12 @@ class Jpag {
     const JQUERY_LOCATION = 'http://code.jquery.com/jquery-latest.min.js';
         
     private $_debug = false;
-    private $_configFile;
-    private $_dataSource;
     private $_errorMsg;
     
+    private $_configFile;
+    
     private $_sourceType;
+    private $_dataSource;
     private $_connectionData = array();
 
     public function _contruct() {
