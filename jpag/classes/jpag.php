@@ -20,7 +20,7 @@ class Jpag {
     private $_dataSource;
     private $_connectionData = array();
 
-    public function _contruct() {
+    public function __construct() {
 
     }
 
@@ -30,6 +30,11 @@ class Jpag {
         $this->_sourceType = $sourceType;
         
         $this->_dataSource = new dataSource($this->_sourceType);
+        
+        if (!$this->_dataSource) {
+            $this->_errorMsg = "Unknown data source";
+            return false;
+        }
         
         return $this->_dataSource->setConnection($this->_connectionData);
         

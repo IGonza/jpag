@@ -11,7 +11,7 @@ class dbDriver {
     
     private $_db;
     
-    public function _contruct() {
+    public function __construct() {
 
         
         
@@ -19,7 +19,7 @@ class dbDriver {
     
     public function connect($dbInfo) {
         
-        if (isset($dataInfo['dbms'])) $this->_dataSource = $dataInfo['dbms'];
+        if (isset($dbInfo['dbms'])) $this->_dataSource = $dbInfo['dbms'];
         
         switch ($this->_dataSource) {
             
@@ -28,6 +28,7 @@ class dbDriver {
                 break;
             case 'mysql':
             default:
+                require_once 'mysqlDriver.php';
                 $this->_db = new mysqlDriver($dbInfo);
                 return $this->_db->connect();
   

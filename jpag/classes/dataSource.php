@@ -8,15 +8,18 @@ class dataSource {
     
     
     
-    public function _contruct($_source) {
+    public function __construct($_source) {
         
         switch ($_source) {
             
             case "db":
+                require_once 'db/db.php';
                 $this->_dataSource = new dbDriver();
                 break;
             case "file":
-                $this->_dataSource = new fileDriver();
+                //require_once 'file/file.php';
+                //$this->_dataSource = new fileDriver();
+                break;
             default: 
                 return 0;
             
