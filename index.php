@@ -36,9 +36,9 @@ $jpag->load("db", $connectionData);
 <html>
     <head>
         <title>Jpaginate 1.0a</title>
-<?php $jpag->header();?>
+<?php echo $jpag->header();?>
     </head>
     <body>
-<?php $jpag->data();?> 
+<?php echo $jpag->data();?> 
     </body>
 </html>

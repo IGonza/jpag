@@ -38,8 +38,11 @@ class Jpag {
             return false;
         }
         
-        $this->_dataSource->setConnection($this->_connectionData);     
-        $this->_config = $this->parseConfigFile();
+        // connect to data source (db, file?)
+        $this->_dataSource->setConnection($this->_connectionData);
+        
+        // parse configuration to array
+        $this->parseConfigFile();
         
         return true;
         
@@ -63,20 +66,47 @@ class Jpag {
 
         if ($this->_config == NULL)
             $this->_errorMsg = "Cannot read configuration data";
+        else {
+            
+            if (!isset($this->_config['loadJQuery']) || $this->_config['loadJQuery'] == "yes" || $this->_config['loadJQuery'] == 1)
+                $this->_config['loadJQuery'] = TRUE;
+            
+        }
+        
         
     }
     
     
     public function header() {
         
+        $header = "";
         
+        if ($this->_config['loadJQuery']) {
+            
+            $header .= "<script type=\"text/javascript\" src=\"" . self::JQUERY_LOCATION . "\"></script>\n";
+            
+        }
+        
+        $js_src = $_SERVER['PHP_SELF']."?jp_load=js";
+        if (!empty($_SERVER['QUERY_STRING']))
+               $js_src .= "&" . $_SERVER['QUERY_STRING'];
+        
+        $header .= "<script type=\"text/javascript\" src=\"".$js_src."\"></script>\n";
+        
+        //$header .= $this->plugins->header();
+        
+        return $header;
         
     }
     
     public function data() {
         
-        if ($this->_errorMsg != "")
-            echo $this->_errorMsg;
+        if ($this->_errorMsg != "") {
+            return $this->_errorMsg;
+        }
+        
+        
+        
         
     }
     
