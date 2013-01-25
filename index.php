@@ -15,7 +15,10 @@ error_reporting(E_ALL);
 
 $jpag = new Jpag();
 $jpag->set_debug(TRUE);
-$jpag->set_configFile('customers_list_xml.php');
+$jpag->set_configType('json'); // optional. Default : 
+
+$config = file_get_contents("notes.json");
+$jpag->set_configString($config);
 
 $connectionData = array(
     "dbms"       => "mysql",
@@ -26,8 +29,7 @@ $connectionData = array(
 );
 
 
-if (!$jpag->load("db", $connectionData))
-    echo $jpag->get_errorMsg();
+$jpag->load("db", $connectionData);
 
 ?>
 <!DOCTYPE html>

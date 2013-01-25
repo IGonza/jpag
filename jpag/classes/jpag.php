@@ -14,11 +14,13 @@ class Jpag {
     private $_debug = false;
     private $_errorMsg;
     
-    private $_configFile;
+    private $_configType = 'json'; 
+    private $_configString;
     
     private $_sourceType;
     private $_dataSource;
     private $_connectionData = array();
+    private $_config = array();
 
     public function __construct() {
 
@@ -36,15 +38,45 @@ class Jpag {
             return false;
         }
         
-        return $this->_dataSource->setConnection($this->_connectionData);
+        $this->_dataSource->setConnection($this->_connectionData);     
+        $this->_config = $this->parseConfigFile();
+        
+        return true;
         
     }
     
+    
+    private function parseConfigFile() {
+        
+        switch ($this->_configType) {
+            
+            case 'xml':
+                $this->_errorMsg = "XML configuration file is not supported";
+                break;
+            case 'json':
+            default:
+                require_once 'parser/jp_json.php';
+                $this->_config = jp_json::toArray($this->_configString);
+                break;
+            
+        }
+
+        if ($this->_config == NULL)
+            $this->_errorMsg = "Cannot read configuration data";
+        
+    }
+    
+    
     public function header() {
+        
+        
         
     }
     
     public function data() {
+        
+        if ($this->_errorMsg != "")
+            echo $this->_errorMsg;
         
     }
     
@@ -57,12 +89,12 @@ class Jpag {
         $this->_debug = $_debug;
     }
     
-    public function get_configFile() {
-        return $this->_configFile;
+    public function get_configString() {
+        return $this->_configString;
     }
 
-    public function set_configFile($_configFile) {
-        $this->_configFile = $_configFile;
+    public function set_configString($_configFile) {
+        $this->_configString = $_configFile;
     }
     
     public function get_dataSource() {
@@ -110,6 +142,15 @@ class Jpag {
     public function get_errorMsg() {
         return $this->_errorMsg;
     }
+    
+    public function get_configType() {
+        return $this->_configType;
+    }
+
+    public function set_configType($_configType) {
+        $this->_configType = $_configType;
+    }
+
 
 
 }

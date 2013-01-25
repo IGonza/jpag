@@ -4,9 +4,6 @@
 class dataSource {
     
     private $_dataSource;
-    //private $_connectionString;
-    
-    
     
     public function __construct($_source) {
         
