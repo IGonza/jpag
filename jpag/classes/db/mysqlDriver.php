@@ -1,6 +1,6 @@
 <?php
 
-class mysqlDriver {
+class mysqlDriver implements jp_driver {
 
     private $_dbhost = "localhost";
     private $_dbname;

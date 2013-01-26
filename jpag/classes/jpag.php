@@ -26,7 +26,7 @@ class Jpag {
 
     }
 
-    public function load($sourceType,$connectionArray) {
+    public function load($sourceType, $connectionArray) {
           
         $this->_connectionData = $connectionArray;
         $this->_sourceType = $sourceType;
