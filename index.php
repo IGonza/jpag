@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 
 $jpag = new Jpag();
 $jpag->set_debug(TRUE);
-$jpag->set_configType('json'); // optional. Default : 
+$jpag->set_configType('json'); // optional. Default : json. Other types are not implemented yet.
 
 $config = file_get_contents("notes.json");
 $jpag->set_configString($config);
@@ -39,6 +39,6 @@ $jpag->load("db", $connectionData);
 <?php echo $jpag->header();?>
     </head>
     <body>
-<?php echo $jpag->data();?> 
+<?php echo $jpag->tpl();?> 
     </body>
 </html>
