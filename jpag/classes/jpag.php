@@ -24,6 +24,7 @@ class Jpag {
     private $_config = array();
     
     private $_jsContent;
+    private $_jsShortCodes = array("{*jp_ready*}", "", "");
     private $_plugins;
 
     public function __construct() {
@@ -64,7 +65,8 @@ class Jpag {
             // initial load javascript 
             case "js":
                 header('Content-Type: application/javascript');
-		echo $this->buildJS();	
+		$this->buildJS();
+                echo $this->_jsContent;
                 die();
 		break;
             // request from a plugin
@@ -98,20 +100,14 @@ class Jpag {
         
         $this->replaceJsShortCodes();
         
-        
-//        $js = str_replace("{*jp_ready*}", $this->plugin->replaceTag(""));
-        
-        /*if ($this->_config['preloadData']) 
-            $js .= "\n"."loadPaginationTable(0);";          
-        else
-            $js .= "\n".'$("#status_indicator").attr("style", "visibility:hidden");';
-        */
-        
     }
     
     private function replaceJsShortCodes() {
         
-        
+        foreach ($this->_jsShortCodes as $jsShortCode) {
+            $shortCodeContent = $this->_plugins->replaceJsShortCode($jsShortCode);
+            $this->_jsContent = str_replace($jsShortCode, $shortCodeContent, $this->_jsContent);
+        }
         
     }
     

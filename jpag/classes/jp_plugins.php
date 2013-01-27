@@ -40,9 +40,18 @@ class jp_plugins {
        
     }
     
-    public function replaceShortCodes() {
+    public function replaceJsShortCode($shortCode) {
         
+        $pluginNum = count($this->_plugins);
+        $shortCodeContent = "";
+                
+        for ($i=0; $i<$pluginNum; $i++) {
+            
+            $shortCodeContent .= $this->_plugins[$i]->replaceJsShortCode($shortCode);
+                
+        }
         
+        return $shortCodeContent;
         
     }
     
