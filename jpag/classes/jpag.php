@@ -11,6 +11,7 @@ class Jpag {
     
     const JQUERY_LOCATION = 'http://code.jquery.com/jquery-latest.min.js';
         
+    private $_jpLocation;
     private $_debug = false;
     private $_errorMsg;
     
@@ -23,7 +24,10 @@ class Jpag {
     private $_config = array();
 
     public function __construct() {
-
+        
+        $this->_jpLocation = dirname( __FILE__ ). "/../";
+        
+        
     }
 
     public function load($sourceType, $connectionArray) {
@@ -43,11 +47,60 @@ class Jpag {
         
         // parse configuration to array
         $this->parseConfigFile();
+         
+        $jp_load = isset($_GET['jp_load']) ? $_GET['jp_load']:"";
+        
+        // check what kind of requuest we've got
+        switch ($jp_load) {
+            // update data on the page
+            case "data":
+		echo $this->loadData();
+                die();
+		break;
+            // initial load javascript 
+            case "js":
+                header('Content-Type: application/javascript');
+		echo $this->buildJS();	
+                die();
+		break;
+            // request from a plugin
+            case "pl":
+		echo $this->pluginRequest();
+                die();
+		break;
+            default:
+		break;
+        }
         
         return true;
         
     }
     
+    private function loadData() {
+        
+        return "";
+        
+    }
+    
+    private function pluginRequest() {
+        
+        return "";
+        
+    }
+    
+    private function buildJS() {
+        
+        $js = file_get_contents($this->_jpLocation."js/jpaginate.js");
+        
+        /*if ($this->_config['preloadData']) 
+            $js .= "\n"."loadPaginationTable(0);";          
+        else
+            $js .= "\n".'$("#status_indicator").attr("style", "visibility:hidden");';
+        */
+        
+        return $js;
+        
+    }
     
     private function parseConfigFile() {
         
@@ -68,8 +121,17 @@ class Jpag {
             $this->_errorMsg = "Cannot read configuration data";
         else {
             
-            if (!isset($this->_config['loadJQuery']) || $this->_config['loadJQuery'] == "yes" || $this->_config['loadJQuery'] == 1)
+            // set default values
+            if (!isset($this->_config['loadJQuery']) || $this->_config['loadJQuery'] == "yes" || $this->_config['loadJQuery'] == 1) {
                 $this->_config['loadJQuery'] = TRUE;
+            }
+            
+            if (!isset($this->_config['preloadData']) || $this->_config['preloadData'] == "yes" || $this->_config['preloadData'] == 1) {
+                $this->_config['preloadData'] = TRUE;
+            }
+            
+            
+            
             
         }
         
@@ -99,7 +161,7 @@ class Jpag {
         
     }
     
-    public function data() {
+    public function tpl() {
         
         if ($this->_errorMsg != "") {
             return $this->_errorMsg;
@@ -110,6 +172,12 @@ class Jpag {
         
     }
     
+
+/*
+ * Define Setters and Getters for private variables
+ * 
+ * 
+ */ 
     
     public function get_debug() {
         return $this->_debug;
@@ -132,9 +200,7 @@ class Jpag {
     }
 
     public function set_dataSource($_dataSource) {
-        
-        $this->_db->set_dataSource($_dataSource);
-            
+        $this->_db->set_dataSource($_dataSource);          
     }
     
     public function get_dbServer() {
