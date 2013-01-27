@@ -1,7 +1,11 @@
 {
     "loadJQuery"      : "true",
-    "preloadData"     : "true", 
     "template"        : "default",
     "resultOnPage"    : "10,20,50",
-    "sqlQuery"        : "SELECT * FROM tbl_notes n, tbl_categories c WHERE n.categoryid = c.categoryid"
+    "sqlQuery"        : "SELECT * FROM tbl_notes n, tbl_categories c WHERE n.categoryid = c.categoryid",
+    
+    "plugins" : [
+        {"name": "preloadData", "active" : "true"},
+        {"name": "fake"}
+    ]
 }

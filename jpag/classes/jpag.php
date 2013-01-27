@@ -22,10 +22,14 @@ class Jpag {
     private $_dataSource;
     private $_connectionData = array();
     private $_config = array();
+    
+    private $_jsContent;
+    private $_plugins;
 
     public function __construct() {
         
         $this->_jpLocation = dirname( __FILE__ ). "/../";
+        $this->_plugins = new jp_plugins();
         
         
     }
@@ -34,7 +38,6 @@ class Jpag {
           
         $this->_connectionData = $connectionArray;
         $this->_sourceType = $sourceType;
-        
         $this->_dataSource = new dataSource($this->_sourceType);
         
         if (!$this->_dataSource) {
@@ -47,6 +50,7 @@ class Jpag {
         
         // parse configuration to array
         $this->parseConfigFile();
+        $this->loadPlugins();
          
         $jp_load = isset($_GET['jp_load']) ? $_GET['jp_load']:"";
         
@@ -90,7 +94,12 @@ class Jpag {
     
     private function buildJS() {
         
-        $js = file_get_contents($this->_jpLocation."js/jpaginate.js");
+        $this->_jsContent = file_get_contents($this->_jpLocation."js/jpaginate.js");
+        
+        $this->replaceJsShortCodes();
+        
+        
+//        $js = str_replace("{*jp_ready*}", $this->plugin->replaceTag(""));
         
         /*if ($this->_config['preloadData']) 
             $js .= "\n"."loadPaginationTable(0);";          
@@ -98,9 +107,24 @@ class Jpag {
             $js .= "\n".'$("#status_indicator").attr("style", "visibility:hidden");';
         */
         
-        return $js;
+    }
+    
+    private function replaceJsShortCodes() {
+        
+        
         
     }
+    
+    private function loadPlugins() {
+        
+        if (isset($this->_config["plugins"])) {
+            
+            $this->_plugins->load($this->_config["plugins"]);
+            
+        }
+        
+    }
+            
     
     private function parseConfigFile() {
         

@@ -2,6 +2,7 @@
 
 require_once 'classes/jpag.php';
 require_once 'classes/dataSource.php';
+require_once 'classes/jp_plugins.php';
 
 
 
