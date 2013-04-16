@@ -28,7 +28,6 @@ $connectionData = array(
     "dbname"     => DBNAME
 );
 
-
 $jpag->load("db", $connectionData);
 
 ?>
