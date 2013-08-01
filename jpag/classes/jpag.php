@@ -12,6 +12,7 @@ class Jpag {
     const JQUERY_LOCATION = 'http://code.jquery.com/jquery-latest.min.js';
 
     private $_jpLocation;
+    private $_jpWebLocation;
     private $_debug = false;
     private $_errorMsg;
     private $_configType = 'json';
@@ -128,9 +129,22 @@ class Jpag {
         else {
 
             // set default values
+            // include jquery or not
             if (!isset($this->_config['loadJQuery']) || $this->_config['loadJQuery'] == "yes" || $this->_config['loadJQuery'] == 1) {
                 $this->_config['loadJQuery'] = TRUE;
             }
+            // set default template
+            if (!isset($this->_config['template']) 
+                 || empty($this->_config['template']) 
+                 || !is_file($this->_config['template'])) {
+                $this->_config['template'] = "default";
+            }
+            // set jpag web location (needed for template images!!!  REDO !!!)
+            if (!isset($this->_config['jpWebLocation']) 
+                 || empty($this->_config['jpWebLocation'])) {
+                $this->config['jpWebLocation'] = "/";
+            }
+            
         }
     }
 
@@ -154,11 +168,13 @@ class Jpag {
         return $header;
     }
 
-    public function tpl() {
+    public function data() {
 
-        if ($this->_errorMsg != "") {
-            return $this->_errorMsg;
-        }
+        $tpl = file_get_contents($this->_jpLocation. "templates/" . $this->_config["template"] . "/template.tpl");
+        $tpl = str_replace("{*JPAG_IMAGES*}", $this->_jpWebLocation. "jpag/templates/" . $this->_config["template"] . "/images/", $tpl);
+        $tpl = str_replace("{*JPAG_ERROR*}", $this->_errorMsg, $tpl);
+        
+        return $tpl;
     }
 
     /*

@@ -38,6 +38,6 @@ $jpag->load("db", $connectionData);
 <?php echo $jpag->header();?>
     </head>
     <body>
-<?php echo $jpag->tpl();?> 
+<?php echo $jpag->data();?> 
     </body>
 </html>

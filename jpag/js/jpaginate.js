@@ -77,7 +77,7 @@ function jp_loadData(numrows) {
 
             $(document).ready(function() {
 
-                {*jp_hook_addjs_after_get_results*}
+      /*          {*jp_hook_addjs_after_get_results*} */
 
                 fixTableStyle();
             });
@@ -142,10 +142,11 @@ function changeFilters(f_values)
 
 function fixTableStyle()
 {
-
+/*
     {*jp_hook_rebuildGenericStyle*}
-    {*jp_hook_addStyleEffects*}
+    {*jp_hook_addStyleEffects*} */
 
 }
-
+/*
 {*jp_hook_addjs_functions*}
+*/

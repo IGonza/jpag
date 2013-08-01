@@ -1,4 +1,5 @@
-<div class="jp_loadingStatus" id="status_indicator">Loading... <img src="{*JPAG_IMAGES*}loading.gif" alt="loading..." border="0" /></div>
+<div class="jp_error">{*JPAG_ERROR*}</div>
+<div class="jp_loadingStatus" id="jp_status_indicator">Loading... <img src="{*JPAG_IMAGES*}loading.gif" alt="loading..." border="0" /></div>
 <div class="jp_data_filters">
 	{*filters*}
 </div>
@@ -14,4 +15,4 @@
 	
 {*buttons*}
 
-	<div class="jp_pageNumbering" style="margin-top:15px;"></div>
+<div class="jp_pageNumbering" style="margin-top:15px;"></div>

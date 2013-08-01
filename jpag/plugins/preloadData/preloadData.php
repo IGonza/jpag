@@ -11,15 +11,15 @@ class preloadData {
     }
     
     public function replaceJsShortCode($jsShortCode) {
-        
+
         $jsShortCodeContent = "/* preloadData plugin */";
         switch ($jsShortCode) {
             
             case "{*jp_ready*}": 
                 if ($this->_settings['active'] == true) 
-                    $jsShortCodeContent .= "\n"."loadPaginationTable(0);";          
+                    $jsShortCodeContent .= "\n"."loadPaginationTable(0);";
                 else
-                    $jsShortCodeContent .= "\n".'$("#status_indicator").attr("style", "visibility:hidden");';
+                    $jsShortCodeContent .= "\n".'$("#jp_status_indicator").attr("style", "visibility:hidden");';
                 break;
            default:
                break;
